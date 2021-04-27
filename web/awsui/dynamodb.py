@@ -6,9 +6,7 @@ from django.http import JsonResponse
 from core.dynamodb.dynamodb import DynamoClient
 
 def dynamodb_tables_ui(request):
-    dynamoClient = DynamoClient()
-    result = dynamoClient.GetAllTables()
-    return HttpResponse("Dynamodb tables")
+    return render(request, 'awsui/dynamodb.html', {})
 
 def dynamodb_tables_data(request):
     dynamoClient = DynamoClient()
