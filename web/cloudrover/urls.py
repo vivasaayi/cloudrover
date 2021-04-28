@@ -22,4 +22,5 @@ urlpatterns = [
     path('', views.index),
     path('admin/', admin.site.urls),
     path('aws/', include('awsui.urls')),
+    path('alerts/', include('alerts.urls')),
 ]
