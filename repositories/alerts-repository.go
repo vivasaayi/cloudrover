@@ -10,8 +10,17 @@ import (
 )
 
 type Alerts struct {
-	Id   int64
-	Date int
+	Id             int64
+	DateHappened   int
+	DeviceName     string
+	Host           string
+	AlertType      string
+	Payload        string
+	Priority       string
+	SourceTypeName string
+	Text           string
+	Title          string
+	Url            string
 }
 
 func GetAllAlerts() []Alerts {
@@ -21,8 +30,14 @@ func GetAllAlerts() []Alerts {
 	}
 	defer db.Close()
 
-	// Prepare statement for reading data
-	rows, err := db.Query("SELECT id, date_happened FROM alerts")
+	query := `
+		SELECT 
+			id, date_happened, device_name, alert_type, title, url,
+			host, payload, priority, text
+		FROM alerts
+	`
+
+	rows, err := db.Query(query)
 	if err != nil {
 		panic(err.Error()) // proper error handling instead of panic in your app
 	}
@@ -32,7 +47,11 @@ func GetAllAlerts() []Alerts {
 	for rows.Next() {
 		a := Alerts{}
 		// get RawBytes from data
-		err = rows.Scan(&a.Id, &a.Date)
+		err = rows.Scan(
+			&a.Id, &a.DateHappened, &a.DeviceName, &a.AlertType, &a.Title,
+			&a.Url, &a.Host, &a.Payload, &a.Priority, &a.Text,
+		)
+
 		if err != nil {
 			panic(err.Error()) // proper error handling instead of panic in your app
 		}
@@ -69,7 +88,7 @@ func InsertDataDogAlert(event *datadog.Event, tagsJson string) {
 
 	fmt.Println("Executing Query")
 
-	rows, err := db.Query(query,
+	_, err = db.Query(query,
 		*event.Id,
 		*event.DateHappened,
 		getStringValue(event.DeviceName),
@@ -85,18 +104,5 @@ func InsertDataDogAlert(event *datadog.Event, tagsJson string) {
 
 	if err != nil {
 		panic(err.Error()) // proper error handling instead of panic in your app
-	}
-
-	result := []Alerts{}
-
-	for rows.Next() {
-		a := Alerts{}
-		// get RawBytes from data
-		err = rows.Scan(&a.Id, &a.Date)
-		if err != nil {
-			panic(err.Error()) // proper error handling instead of panic in your app
-		}
-
-		result = append(result, a)
 	}
 }
