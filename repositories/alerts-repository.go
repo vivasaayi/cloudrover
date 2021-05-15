@@ -6,6 +6,7 @@ import (
 
 	"github.com/DataDog/datadog-api-client-go/api/v1/datadog"
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/vivasaayi/cloudrover/dal"
 )
 
 type Alerts struct {
@@ -14,7 +15,7 @@ type Alerts struct {
 }
 
 func GetAllAlerts() []Alerts {
-	db, err := sql.Open("mysql", "root:root@tcp(db:3306)/cloudrover")
+	db, err := sql.Open("mysql", dal.GetMySqlConnectionString())
 	if err != nil {
 		panic(err.Error()) // Just for example purpose. You should use proper error handling instead of panic
 	}
@@ -51,7 +52,7 @@ func getStringValue(val *string) string {
 }
 
 func InsertDataDogAlert(event *datadog.Event, tagsJson string) {
-	db, err := sql.Open("mysql", "root:root@tcp(db:3306)/cloudrover")
+	db, err := sql.Open("mysql", dal.GetMySqlConnectionString())
 	if err != nil {
 		panic(err.Error()) // Just for example purpose. You should use proper error handling instead of panic
 	}
