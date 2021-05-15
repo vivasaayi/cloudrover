@@ -43,15 +43,13 @@ func GetMySqlConnectionString() string {
 	password := utililties.GetStringEnvVar("MYSQL_PASSWORD", "", true)
 	databaseName := utililties.GetStringEnvVar("MYSQL_DB_NAME", "cloudrover", false)
 
-	host_port := fmt.Sprintf("%s:%s", hostName, port)
+	host_port := fmt.Sprintf("tcp(%s:%s)", hostName, port)
 
 	if hostName == "localhost" && port == "3306" {
 		host_port = ""
 	}
 
 	cs := fmt.Sprintf("%s:%s@%s/%s", userName, password, host_port, databaseName)
-
-	fmt.Println(cs)
 
 	return cs
 }

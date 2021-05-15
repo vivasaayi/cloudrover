@@ -8,7 +8,9 @@ services:
     environment:
       DD_API_KEY: ${DD_API_KEY:-NOT_SET}
       DD_APP_KEY: ${DD_APP_KEY:-NOT_SET}
-      MYSQL_HOST_NAME: db
+      MYSQL_USERNAME: root
+      MYSQL_PASSWORD: root
+      MYSQL_HOSTNAME: db
     links: 
       - db:db
     ports:
