@@ -11,7 +11,7 @@ func main() {
 	fmt.Println("Starting Cloud Rover")
 
 	fmt.Println("Starting Rovers")
-	rovers.StartRovers()
+	go rovers.StartRovers()
 
 	fmt.Println("Starting Web Server")
 	web.InitHttpServer()

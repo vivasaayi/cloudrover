@@ -9,6 +9,8 @@ import (
 	"github.com/gorilla/mux"
 
 	ar "github.com/vivasaayi/cloudrover/repositories"
+
+	rice "github.com/GeertJohan/go.rice"
 )
 
 func HomeHandler(w http.ResponseWriter, r *http.Request) {
@@ -29,7 +31,9 @@ func AlertsDataHandler(w http.ResponseWriter, r *http.Request) {
 func InitHttpServer() {
 	router := mux.NewRouter()
 
-	fs := http.FileServer(http.Dir("./web/public/"))
+	box := rice.MustFindBox("./public/")
+	fs := http.FileServer(box.HTTPBox())
+
 	router.PathPrefix("/public/").Handler(http.StripPrefix("/public/", fs))
 
 	router.HandleFunc("/", HomeHandler)
