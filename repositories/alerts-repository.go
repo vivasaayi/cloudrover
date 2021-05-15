@@ -14,7 +14,7 @@ type Alerts struct {
 }
 
 func GetAllAlerts() []Alerts {
-	db, err := sql.Open("mysql", "root:root@/cloudrover")
+	db, err := sql.Open("mysql", "root:root@tcp(db:3306)/cloudrover")
 	if err != nil {
 		panic(err.Error()) // Just for example purpose. You should use proper error handling instead of panic
 	}
@@ -51,7 +51,7 @@ func getStringValue(val *string) string {
 }
 
 func InsertDataDogAlert(event *datadog.Event, tagsJson string) {
-	db, err := sql.Open("mysql", "root:root@/cloudrover")
+	db, err := sql.Open("mysql", "root:root@tcp(db:3306)/cloudrover")
 	if err != nil {
 		panic(err.Error()) // Just for example purpose. You should use proper error handling instead of panic
 	}

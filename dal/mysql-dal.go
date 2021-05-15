@@ -12,7 +12,7 @@ type Alerts struct {
 }
 
 func ExecuteSelectQuery() {
-	db, err := sql.Open("mysql", "root:root@/cloudrover")
+	db, err := sql.Open("mysql", "root:root@db/cloudrover")
 	if err != nil {
 		panic(err.Error()) // Just for example purpose. You should use proper error handling instead of panic
 	}

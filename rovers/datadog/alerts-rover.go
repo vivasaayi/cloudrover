@@ -48,7 +48,7 @@ func (ar *DataDogAlertsRover) collectAndPublish() {
 	startTime := ar.previosEventTime
 	endTime := curTime
 
-	ar.previosEventTime = curTime.Add(-4 * time.Hour)
+	ar.previosEventTime = curTime.Add(-8 * time.Hour)
 
 	fmt.Println(startTime)
 	fmt.Println(endTime)

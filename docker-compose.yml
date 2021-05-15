@@ -1,0 +1,24 @@
+# Use root/example as user/password credentials
+version: '3.1'
+
+services:
+  cloudrover:
+    image: cloudrover
+    restart: always
+    environment:
+      DD_API_KEY: ${DD_API_KEY:-NOT_SET}
+      DD_APP_KEY: ${DD_APP_KEY:-NOT_SET}
+      MYSQL_HOST_NAME: db
+    links: 
+      - db:db
+    ports:
+      - 8000:8000
+
+  db:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - 3310:3306
