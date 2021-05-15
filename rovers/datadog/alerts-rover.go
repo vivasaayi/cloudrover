@@ -9,6 +9,7 @@ import (
 	"github.com/DataDog/datadog-api-client-go/api/v1/datadog"
 	"github.com/vivasaayi/cloudrover/proxies"
 	"github.com/vivasaayi/cloudrover/repositories"
+	"github.com/vivasaayi/cloudrover/utililties"
 )
 
 type DataDogAlertsRover struct {
@@ -28,7 +29,8 @@ func GetDataDogAlertsRover() *DataDogAlertsRover {
 }
 
 func (ar *DataDogAlertsRover) StartCollectingDataDogEvents() {
-	ticker := time.NewTicker(5 * time.Second)
+	art := utililties.GetIntEnvVar("DD_ALERT_ROVER_SCHDULE", 10, false)
+	ticker := time.NewTicker(time.Duration(art) * time.Second)
 
 	alerts := repositories.GetAllAlerts()
 	for _, a := range alerts {
@@ -48,7 +50,8 @@ func (ar *DataDogAlertsRover) collectAndPublish() {
 	startTime := ar.previosEventTime
 	endTime := curTime
 
-	ar.previosEventTime = curTime.Add(-8 * time.Hour)
+	// ToDo: This can be made more intelligent
+	ar.previosEventTime = curTime.Add(-30 * time.Second)
 
 	fmt.Println(startTime)
 	fmt.Println(endTime)

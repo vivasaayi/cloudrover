@@ -20,13 +20,37 @@ $(function () {
                 {
                     dataField: "Id",
                     caption: "Id",
-                    width: 140
                 },
                 {
-                    dataField: "Date",
-                    alignment: "right",
-                    width: 120,
-
+                    dataField: "DateHappened",
+                    caption: "Date",
+                },
+                {
+                    dataField: "DeviceName",
+                },
+                {
+                    dataField: "Host",
+                },
+                {
+                    dataField: "AlertType",
+                },
+                {
+                    dataField: "Payload",
+                },
+                {
+                    dataField: "Priority",
+                },
+                {
+                    dataField: "SourceTypeName",
+                },
+                {
+                    dataField: "Text",
+                },
+                {
+                    dataField: "Title",
+                },
+                {
+                    dataField: "URL",
                 },
             ]
         }).dxDataGrid('instance');

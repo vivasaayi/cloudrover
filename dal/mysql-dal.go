@@ -2,8 +2,10 @@ package dal
 
 import (
 	"database/sql"
+	"fmt"
 
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/vivasaayi/cloudrover/utililties"
 )
 
 type Alerts struct {
@@ -32,4 +34,22 @@ func ExecuteSelectQuery() {
 			panic(err.Error()) // proper error handling instead of panic in your app
 		}
 	}
+}
+
+func GetMySqlConnectionString() string {
+	hostName := utililties.GetStringEnvVar("MYSQL_HOSTNAME", "localhost", false)
+	port := utililties.GetStringEnvVar("MYSQL_PORT", "3306", false)
+	userName := utililties.GetStringEnvVar("MYSQL_USERNAME", "", true)
+	password := utililties.GetStringEnvVar("MYSQL_PASSWORD", "", true)
+	databaseName := utililties.GetStringEnvVar("MYSQL_DB_NAME", "cloudrover", false)
+
+	host_port := fmt.Sprintf("tcp(%s:%s)", hostName, port)
+
+	if hostName == "localhost" && port == "3306" {
+		host_port = ""
+	}
+
+	cs := fmt.Sprintf("%s:%s@%s/%s", userName, password, host_port, databaseName)
+
+	return cs
 }
