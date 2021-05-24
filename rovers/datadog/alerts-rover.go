@@ -38,7 +38,7 @@ func (ar *DataDogAlertsRover) StartCollectingDataDogEvents() {
 	}
 
 	for range ticker.C {
-		ar.collectAndPublish()
+		// ar.collectAndPublish()
 	}
 }
 
@@ -56,7 +56,7 @@ func (ar *DataDogAlertsRover) collectAndPublish() {
 	fmt.Println(startTime)
 	fmt.Println(endTime)
 
-	events := ar.ddProxy.GetEvents("datadog", startTime.Unix(), endTime.Unix(), "all")
+	events := ar.ddProxy.GetEvents("alert", startTime.Unix(), endTime.Unix(), "all")
 
 	for _, event := range *events.Events {
 		fmt.Println(*event.DateHappened)

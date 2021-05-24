@@ -106,3 +106,29 @@ func InsertDataDogAlert(event *datadog.Event, tagsJson string) {
 		panic(err.Error()) // proper error handling instead of panic in your app
 	}
 }
+
+func InsertDataDogReport(name string, dateHappened int, reportJson string) {
+	db, err := sql.Open("mysql", dal.GetMySqlConnectionString())
+	if err != nil {
+		panic(err.Error()) // Just for example purpose. You should use proper error handling instead of panic
+	}
+	defer db.Close()
+
+	// Prepare statement for reading data
+	query := `
+		INSERT INTO past_reports (name, date_happened, report) 
+		values(?, ?, ?)
+	`
+
+	fmt.Println("Executing Query")
+
+	_, err = db.Query(query,
+		name,
+		dateHappened,
+		reportJson,
+	)
+
+	if err != nil {
+		panic(err.Error()) // proper error handling instead of panic in your app
+	}
+}

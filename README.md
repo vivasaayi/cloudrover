@@ -4,7 +4,7 @@ Many monitoring tools and alert routing systems are already availabile.
 
 Cloud Rover aims to help SREs with the practical Alert Managment, from generation to root cause.
 
-# How to use run Cloud Rover as a docker image
+# How to run Cloud Rover as a docker image
 
 ## Create Docker Compose file
 
@@ -16,7 +16,7 @@ version: '3.1'
 
 services:
   cloudrover:
-    image: cloudrover
+    image: vivaaayi/cloudrover
     restart: always
     environment:
       DD_API_KEY: ${DD_API_KEY:-NOT_SET}
@@ -53,7 +53,7 @@ You have to create the Cloud Rover database, when you run the cloudrover for the
 
 ## MySQL WorkBench
 1. Connect to the CoudRover with root/root user in port 3310.
-2. Execute the scripts from [Database Scripts](./database-scripts) folder
+2. Execute the scripts from [Database Scripts](https://github.com/vivasaayi/cloudrover/tree/main/database-scripts) folder
 
 # Accessing the Dashboard
 
