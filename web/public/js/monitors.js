@@ -1,7 +1,8 @@
 $(function () {
     $.getJSON("/data/monitors", function (alerts) {
+        debugger
         var dataGrid = $("#gridContainer").dxDataGrid({
-            dataSource: alerts,
+            dataSource: alerts[0].ParsedJson.monitors,
             columnsAutoWidth: true,
             showBorders: true,
             filterRow: {
@@ -18,39 +19,27 @@ $(function () {
             },
             columns: [
                 {
-                    dataField: "Id",
+                    dataField: "id",
                     caption: "Id",
                 },
                 {
-                    dataField: "DateHappened",
+                    dataField: "last_triggered_ts",
                     caption: "Date",
                 },
                 {
-                    dataField: "DeviceName",
+                    dataField: "name",
                 },
                 {
-                    dataField: "Host",
+                    dataField: "classification",
                 },
                 {
-                    dataField: "AlertType",
+                    dataField: "query",
                 },
                 {
-                    dataField: "Payload",
+                    dataField: "status",
                 },
                 {
-                    dataField: "Priority",
-                },
-                {
-                    dataField: "SourceTypeName",
-                },
-                {
-                    dataField: "Text",
-                },
-                {
-                    dataField: "Title",
-                },
-                {
-                    dataField: "URL",
+                    dataField: "type",
                 },
             ]
         }).dxDataGrid('instance');

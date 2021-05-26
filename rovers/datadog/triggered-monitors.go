@@ -1,7 +1,6 @@
 package datadog
 
 import (
-	"encoding/json"
 	"fmt"
 	"strconv"
 	"time"
@@ -28,7 +27,7 @@ func GetTriggeredMonitorsRover() *TriggeredMonitorsRover {
 }
 
 func (tmr *TriggeredMonitorsRover) StartTriggeredMonitorsRover() {
-	art := utililties.GetIntEnvVar("DD_TRIGGERED_MONITORS_SCHDULE", 60, false)
+	art := utililties.GetIntEnvVar("DD_TRIGGERED_MONITORS_SCHDULE", 600, false)
 	ticker := time.NewTicker(time.Duration(art) * time.Second)
 
 	for range ticker.C {
@@ -42,15 +41,25 @@ func (tmr *TriggeredMonitorsRover) ProduceMonitorsSummary() {
 	monitors := tmr.ddProxy.SearchMonitors()
 	checks := tmr.PrepareReport(monitors)
 
-	jsonBody, err := json.MarshalIndent(checks, "", "  ")
-
-	jsonStr := string(jsonBody)
+	// Insert Triggered Monitors
+	jsonBody, err := utililties.ConvertObjectToJson(checks)
 
 	if err != nil {
-		jsonStr = "{}"
+		// ToDo: Handle the error
+		jsonBody = "{}"
 	}
 
-	repositories.InsertDataDogReport("triggered-monitors", 0, jsonStr)
+	repositories.InsertDataDogReport("triggered-monitors", 0, jsonBody)
+
+	// Insert Raw Monitor definitions
+	jsonBody, err = utililties.ConvertObjectToJson(monitors)
+
+	if err != nil {
+		// ToDo: Handle the error
+		jsonBody = "{}"
+	}
+
+	repositories.InsertDataDogReport("monitors", 0, jsonBody)
 }
 
 func (tmr *TriggeredMonitorsRover) CheckMutedMonitors(mts []proxies.DDSearchResponseBoolSummary) CheckSummary {

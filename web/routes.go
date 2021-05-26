@@ -34,8 +34,15 @@ func MonitorsHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func MonitorsDataHandler(w http.ResponseWriter, r *http.Request) {
-	alerts := ar.GetAllAlerts()
-	json.NewEncoder(w).Encode(alerts)
+	pj := map[string]interface{}{}
+	report := ar.GetDataDogReport("monitors", pj)
+	json.NewEncoder(w).Encode(report)
+}
+
+func TriggeredMonitorsCheckDataHandler(w http.ResponseWriter, r *http.Request) {
+	pj := []map[string]interface{}{}
+	report := ar.GetDataDogReport("triggered-monitors", pj)
+	json.NewEncoder(w).Encode(report)
 }
 
 func InitHttpServer() {
@@ -53,6 +60,7 @@ func InitHttpServer() {
 
 	router.HandleFunc("/monitors", MonitorsHandler)
 	router.HandleFunc("/data/monitors", MonitorsDataHandler)
+	router.HandleFunc("/data/triggered-monitors-check", TriggeredMonitorsCheckDataHandler)
 
 	srv := &http.Server{
 		Handler: router,
