@@ -8,8 +8,12 @@ import (
 
 func StartRovers() {
 	fmt.Println("Starting Alert Rover..")
+
 	ar := datadog.GetDataDogAlertsRover()
-	ar.StartCollectingDataDogEvents()
+	go ar.StartCollectingDataDogEvents()
+
+	tmr := datadog.GetTriggeredMonitorsRover()
+	go tmr.StartTriggeredMonitorsRover()
 
 	fmt.Println("Rovers Started..")
 }

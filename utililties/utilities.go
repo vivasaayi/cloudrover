@@ -1,6 +1,7 @@
 package utililties
 
 import (
+	"encoding/json"
 	"fmt"
 	"os"
 	"strconv"
@@ -39,4 +40,16 @@ func GetIntEnvVar(key string, defaultValue int, required bool) int {
 	}
 
 	return parsedVal
+}
+
+func ConvertObjectToJson(data interface{}) (string, error) {
+	jsonBody, err := json.MarshalIndent(data, "", "  ")
+
+	jsonStr := string(jsonBody)
+
+	if err != nil {
+		return "", err
+	}
+
+	return jsonStr, nil
 }

@@ -28,6 +28,23 @@ func AlertsDataHandler(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(alerts)
 }
 
+func MonitorsHandler(w http.ResponseWriter, r *http.Request) {
+	t, _ := template.ParseFiles("./web/public/layout.html", "./web/public/monitors.html")
+	t.ExecuteTemplate(w, "layout", "")
+}
+
+func MonitorsDataHandler(w http.ResponseWriter, r *http.Request) {
+	pj := map[string]interface{}{}
+	report := ar.GetDataDogReport("monitors", pj)
+	json.NewEncoder(w).Encode(report)
+}
+
+func TriggeredMonitorsCheckDataHandler(w http.ResponseWriter, r *http.Request) {
+	pj := []map[string]interface{}{}
+	report := ar.GetDataDogReport("triggered-monitors", pj)
+	json.NewEncoder(w).Encode(report)
+}
+
 func InitHttpServer() {
 	router := mux.NewRouter()
 
@@ -40,6 +57,10 @@ func InitHttpServer() {
 
 	router.HandleFunc("/alerts", AlertsHandler)
 	router.HandleFunc("/data/alerts", AlertsDataHandler)
+
+	router.HandleFunc("/monitors", MonitorsHandler)
+	router.HandleFunc("/data/monitors", MonitorsDataHandler)
+	router.HandleFunc("/data/triggered-monitors-check", TriggeredMonitorsCheckDataHandler)
 
 	srv := &http.Server{
 		Handler: router,
