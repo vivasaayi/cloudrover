@@ -2,7 +2,7 @@
 
 Many monitoring tools and alert routing systems are already availabile.
 
-Cloud Rover aims to help SREs with the practical Alert Managment, from generation to root cause.
+Cloud Rover aims to help SREs with the practical Alert Managment, from alert generation to root cause anaysis.
 
 # How to run Cloud Rover as a docker image
 
@@ -58,3 +58,10 @@ You have to create the Cloud Rover database, when you run the cloudrover for the
 # Accessing the Dashboard
 
 You can access the dashboard using http://localhost:8000
+
+# Other Environment Variables
+
+|Name|Description|Default Value|
+|---|---|---|
+|DD_ALERT_ROVER_SCHDULE|Schedule for Alert Rover|60 seconds|
+|DD_TRIGGERED_MONITORS_SCHDULE|Schedule for Triggered Monitors Rover|60 seconds|

@@ -29,7 +29,7 @@ func GetDataDogAlertsRover() *DataDogAlertsRover {
 }
 
 func (ar *DataDogAlertsRover) StartCollectingDataDogEvents() {
-	art := utililties.GetIntEnvVar("DD_ALERT_ROVER_SCHDULE", 10, false)
+	art := utililties.GetIntEnvVar("DD_ALERT_ROVER_SCHDULE", 60, false)
 	ticker := time.NewTicker(time.Duration(art) * time.Second)
 
 	alerts := repositories.GetAllAlerts()
@@ -38,12 +38,12 @@ func (ar *DataDogAlertsRover) StartCollectingDataDogEvents() {
 	}
 
 	for range ticker.C {
-		// ar.collectAndPublish()
+		ar.collectAndPublish()
 	}
 }
 
 func (ar *DataDogAlertsRover) collectAndPublish() {
-	fmt.Println("Publishing alert data")
+	fmt.Println("AlertsRover: Collecting & Publishing alert data")
 
 	curTime := time.Now()
 

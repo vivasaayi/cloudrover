@@ -27,7 +27,7 @@ func GetTriggeredMonitorsRover() *TriggeredMonitorsRover {
 }
 
 func (tmr *TriggeredMonitorsRover) StartTriggeredMonitorsRover() {
-	art := utililties.GetIntEnvVar("DD_TRIGGERED_MONITORS_SCHDULE", 600, false)
+	art := utililties.GetIntEnvVar("DD_TRIGGERED_MONITORS_SCHDULE", 60, false)
 	ticker := time.NewTicker(time.Duration(art) * time.Second)
 
 	for range ticker.C {
@@ -36,7 +36,7 @@ func (tmr *TriggeredMonitorsRover) StartTriggeredMonitorsRover() {
 }
 
 func (tmr *TriggeredMonitorsRover) ProduceMonitorsSummary() {
-	fmt.Println("Producing Monitor Summary")
+	fmt.Println("TRIGGERD Monitors Rover: Producing Monitor Summary")
 
 	monitors := tmr.ddProxy.SearchMonitors()
 	checks := tmr.PrepareReport(monitors)
